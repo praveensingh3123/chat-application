@@ -16,6 +16,7 @@ public class UserOne implements ActionListener, Runnable {
     static JFrame f = new JFrame();
     static DataOutputStream dout;
     String flag1 = "";
+    ImageIcon user1Icon;
 
     BufferedReader reader;
     BufferedWriter writer;
@@ -89,10 +90,11 @@ public class UserOne implements ActionListener, Runnable {
         a1.setBackground(Color.WHITE);
         f.add(a1);
 
-        text = new JTextField();
+        text = new PlaceholderTextField("Enter your message");
         text.setBounds(5, 655, 310, 40);
         text.setFont(new Font("SAN_SERIF", Font.PLAIN, 16));
         f.add(text);
+
 
         JButton send = new JButton("Send");
         send.setBounds(320, 655, 123, 40);
@@ -116,17 +118,20 @@ public class UserOne implements ActionListener, Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+        user1Icon = new ImageIcon(ClassLoader.getSystemResource("icons/3.png"));
+
+}
 
     public void actionPerformed(ActionEvent ae) {
         try {
             String message = text.getText().trim(); // Trim to remove leading/trailing whitespace
 
             // Check if the message is empty after trimming
-            if (message.isEmpty()) {
+            if (message.equals("Type a message...") || message.isEmpty()) {
                 JOptionPane.showMessageDialog(f, "Please enter a message before sending.", "Empty Message", JOptionPane.WARNING_MESSAGE);
-                return; // Exit the method without sending an empty message
+                return; // Exit the method without sending the placeholder text or empty message
             }
+
 
             String out =text.getText();
             flag1 = "1";
@@ -210,6 +215,11 @@ public class UserOne implements ActionListener, Runnable {
         JPanel left = new JPanel(new BorderLayout());
         left.setBackground(Color.WHITE);
         left.add(panel, BorderLayout.LINE_START);
+
+        ImageIcon userIcon = new ImageIcon(ClassLoader.getSystemResource("icons/3.png"));
+        JLabel iconLabel = new JLabel(userIcon);
+        left.add(iconLabel, BorderLayout.LINE_START);
+
         vertical.add(left);
 
         //NEWLY ADDED
@@ -226,4 +236,24 @@ public class UserOne implements ActionListener, Runnable {
         Thread t1 = new Thread(one);
         t1.start();
     }
+    static class PlaceholderTextField extends JTextField {
+        private String placeholder;
+
+    public PlaceholderTextField(String placeholder) {
+            this.placeholder = placeholder;
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (getText().isEmpty()) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setColor(Color.GRAY);
+                g2.setFont(getFont().deriveFont(Font.ITALIC));
+                g2.drawString(placeholder, getInsets().left, g.getFontMetrics().getMaxAscent() + getInsets().top);
+                g2.dispose();
+            }
+        }
+    }
+
 }

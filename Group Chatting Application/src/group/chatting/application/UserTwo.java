@@ -89,7 +89,7 @@ public class UserTwo implements ActionListener, Runnable {
         a1.setBackground(Color.WHITE);
         f.add(a1);
 
-        text = new JTextField();
+        text = new UserOne.PlaceholderTextField("Enter your message");
         text.setBounds(5, 655, 310, 40);
         text.setFont(new Font("SAN_SERIF", Font.PLAIN, 16));
         f.add(text);
@@ -123,10 +123,11 @@ public class UserTwo implements ActionListener, Runnable {
             String message = text.getText().trim(); // Trim to remove leading/trailing whitespace
 
             // Check if the message is empty after trimming
-            if (message.isEmpty()) {
+            if (message.equals("Type a message...") || message.isEmpty()) {
                 JOptionPane.showMessageDialog(f, "Please enter a message before sending.", "Empty Message", JOptionPane.WARNING_MESSAGE);
-                return; // Exit the method without sending an empty message
+                return; // Exit the method without sending the placeholder text or empty message
             }
+
 
             String out = text.getText();
             System.out.println(out);
@@ -223,5 +224,25 @@ public class UserTwo implements ActionListener, Runnable {
         UserTwo two = new UserTwo();
         Thread t1 = new Thread(two);
         t1.start();
+    }
+
+    static class PlaceholderTextField extends JTextField {
+        private String placeholder;
+
+        public PlaceholderTextField(String placeholder) {
+            this.placeholder = placeholder;
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (getText().isEmpty()) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setColor(Color.GRAY);
+                g2.setFont(getFont().deriveFont(Font.ITALIC));
+                g2.drawString(placeholder, getInsets().left, g.getFontMetrics().getMaxAscent() + getInsets().top);
+                g2.dispose();
+            }
+        }
     }
 }
