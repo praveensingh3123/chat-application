@@ -210,22 +210,43 @@ public class UserOne implements ActionListener, Runnable {
     }
 
     static void getMessage(JPanel jPanel, Box vertical, JPanel a1, JFrame f, String msg) {
+//        JPanel panel = jPanel;
+//
+//        JPanel left = new JPanel(new BorderLayout());
+//        left.setBackground(Color.WHITE);
+//        left.add(panel, BorderLayout.LINE_START);
+//
+//        ImageIcon userIcon = new ImageIcon(ClassLoader.getSystemResource("icons/mirzapur.png"));
+//        Image scaledImage = userIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+//
+//        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+//
+//// Use the scaled ImageIcon for the icon label
+//        JLabel iconLabel = new JLabel(scaledIcon);
+//        left.add(iconLabel, BorderLayout.LINE_START);
+//
+//        vertical.add(left);
+//
+//        //NEWLY ADDED
+//        a1.removeAll();
+//
+//        a1.add(vertical, BorderLayout.PAGE_START);
+//
+//        f.repaint();
+//        f.invalidate();
+//        f.validate();
+
         JPanel panel = jPanel;
 
         JPanel left = new JPanel(new BorderLayout());
         left.setBackground(Color.WHITE);
         left.add(panel, BorderLayout.LINE_START);
-
-        ImageIcon userIcon = new ImageIcon(ClassLoader.getSystemResource("icons/3.png"));
-        JLabel iconLabel = new JLabel(userIcon);
-        left.add(iconLabel, BorderLayout.LINE_START);
-
         vertical.add(left);
 
-        //NEWLY ADDED
-        a1.removeAll();
-
         a1.add(vertical, BorderLayout.PAGE_START);
+
+        //NEWLY ADDED FOR ALIGNMENT
+        vertical.setAlignmentY(Component.TOP_ALIGNMENT);
 
         f.repaint();
         f.invalidate();
